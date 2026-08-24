@@ -3,149 +3,378 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Public Will & Digital Declaration - Ryosuke Murase</title>
+  <title>Public Will &amp; Digital Declaration - Ryosuke Murase</title>
+  <meta name="description" content="Public Will and OpenPGP Public Key of Ryosuke Murase (@muraseryosuke)">
   <style>
     :root {
-      --bg: #0e1117;
-      --panel: #161b22;
-      --border: #30363d;
-      --text: #c9d1d9;
-      --heading: #f0f6fc;
+      --bg: #090d13;
+      --card-bg: #121820;
+      --border: #242d38;
+      --border-hover: #3b4758;
+      --text-main: #e6edf3;
+      --text-sub: #8b949e;
       --accent: #58a6ff;
-      --mono: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+      --accent-dim: rgba(88, 166, 255, 0.12);
+      --code-bg: #0d1117;
+      --font-mono: ui-monospace, "SF Mono", "Cascadia Code", "Fira Code", Menlo, Monaco, Consolas, monospace;
+      --font-sans: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
     }
+
     @media (prefers-color-scheme: light) {
       :root {
         --bg: #f6f8fa;
-        --panel: #ffffff;
+        --card-bg: #ffffff;
         --border: #d0d7de;
-        --text: #24292f;
-        --heading: #1f2328;
+        --border-hover: #afb8c1;
+        --text-main: #1f2328;
+        --text-sub: #656d76;
         --accent: #0969da;
+        --accent-dim: rgba(9, 105, 218, 0.08);
+        --code-bg: #f6f8fa;
       }
     }
+
     * { box-sizing: border-box; }
+
     body {
       margin: 0;
       padding: 40px 20px;
-      background: var(--bg);
-      color: var(--text);
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Hiragino Kaku Gothic ProN", Meiryo, sans-serif;
+      background-color: var(--bg);
+      color: var(--text-main);
+      font-family: var(--font-sans);
       line-height: 1.6;
+      -webkit-font-smoothing: antialiased;
     }
+
     .container {
-      max-width: 860px;
+      max-width: 880px;
       margin: 0 auto;
     }
+
+    /* Header */
     header {
-      margin-bottom: 28px;
+      margin-bottom: 24px;
       border-bottom: 1px solid var(--border);
       padding-bottom: 20px;
     }
-    h1 {
-      color: var(--heading);
-      font-size: 1.5rem;
-      margin: 0 0 10px 0;
-      letter-spacing: -0.01em;
-    }
-    .intro {
-      font-size: 0.95rem;
-      color: var(--text);
-      margin-bottom: 12px;
-    }
-    .nav {
+
+    .title-row {
       display: flex;
+      justify-content: space-between;
+      align-items: baseline;
       flex-wrap: wrap;
+      gap: 12px;
+      margin-bottom: 8px;
+    }
+
+    h1 {
+      font-size: 1.4rem;
+      font-weight: 700;
+      margin: 0;
+      letter-spacing: -0.02em;
+    }
+
+    .author {
+      font-size: 0.9rem;
+      color: var(--text-sub);
+    }
+
+    .author a {
+      color: var(--text-main);
+      text-decoration: none;
+      font-weight: 500;
+    }
+
+    .author a:hover {
+      color: var(--accent);
+      text-decoration: underline;
+    }
+
+    .fingerprint-banner {
+      font-family: var(--font-mono);
+      font-size: 0.78rem;
+      color: var(--text-sub);
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      padding: 8px 12px;
+      border-radius: 6px;
+      word-break: break-all;
+      margin-top: 12px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .fingerprint-val {
+      color: var(--accent);
+    }
+
+    /* Tabs */
+    .tab-bar {
+      display: flex;
+      gap: 8px;
+      margin-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+      padding-bottom: 8px;
+      flex-wrap: wrap;
+    }
+
+    .tab-btn {
+      background: transparent;
+      border: 1px solid transparent;
+      color: var(--text-sub);
+      font-family: var(--font-sans);
+      font-size: 0.88rem;
+      font-weight: 500;
+      padding: 6px 14px;
+      border-radius: 6px;
+      cursor: pointer;
+      transition: all 0.15s ease;
+    }
+
+    .tab-btn:hover {
+      color: var(--text-main);
+      background-color: var(--accent-dim);
+    }
+
+    .tab-btn.active {
+      color: var(--accent);
+      background-color: var(--accent-dim);
+      border-color: var(--border);
+    }
+
+    /* Content Area */
+    .tab-content {
+      display: none;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 16px;
+      background: var(--code-bg);
+      border-bottom: 1px solid var(--border);
+      font-size: 0.82rem;
+      color: var(--text-sub);
+    }
+
+    .action-btn {
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--text-main);
+      font-family: var(--font-sans);
+      font-size: 0.78rem;
+      padding: 4px 10px;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: all 0.15s;
+    }
+
+    .action-btn:hover {
+      background: var(--border);
+      color: var(--accent);
+    }
+
+    pre {
+      margin: 0;
+      padding: 20px;
+      font-family: var(--font-mono);
+      font-size: 0.84rem;
+      line-height: 1.55;
+      white-space: pre-wrap;
+      word-break: break-all;
+      color: var(--text-main);
+      max-height: 620px;
+      overflow-y: auto;
+    }
+
+    /* Verification Box */
+    .verify-grid {
+      display: grid;
       gap: 16px;
+      padding: 20px;
+    }
+
+    .verify-step {
       font-size: 0.88rem;
     }
-    .nav a {
+
+    .verify-step h3 {
+      font-size: 0.92rem;
+      margin: 0 0 6px 0;
+      color: var(--text-main);
+    }
+
+    .cmd-block {
+      background: var(--code-bg);
+      border: 1px solid var(--border);
+      padding: 10px 14px;
+      border-radius: 6px;
+      font-family: var(--font-mono);
+      font-size: 0.82rem;
+      color: var(--accent);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-top: 6px;
+      word-break: break-all;
+    }
+
+    /* Footer */
+    footer {
+      margin-top: 36px;
+      padding-top: 20px;
+      border-top: 1px solid var(--border);
+      text-align: center;
+      font-size: 0.82rem;
+      color: var(--text-sub);
+    }
+
+    footer a {
       color: var(--accent);
       text-decoration: none;
     }
-    .nav a:hover {
+
+    footer a:hover {
       text-decoration: underline;
-    }
-    pre {
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      padding: 24px;
-      font-family: var(--mono);
-      font-size: 0.88rem;
-      line-height: 1.6;
-      white-space: pre-wrap;
-      word-break: break-all;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-    }
-    .verify-box {
-      margin-top: 24px;
-      padding: 16px 20px;
-      background: var(--panel);
-      border: 1px solid var(--border);
-      border-radius: 8px;
-      font-size: 0.85rem;
-    }
-    .verify-box h3 {
-      margin: 0 0 8px 0;
-      font-size: 0.95rem;
-      color: var(--heading);
-    }
-    .verify-box code {
-      background: var(--bg);
-      padding: 2px 6px;
-      border-radius: 4px;
-      font-family: var(--mono);
-    }
-    footer {
-      margin-top: 40px;
-      font-size: 0.82rem;
-      color: #8b949e;
-      text-align: center;
-      border-top: 1px solid var(--border);
-      padding-top: 20px;
     }
   </style>
 </head>
 <body>
+
   <div class="container">
     <header>
-      <h1>Public Will &amp; Digital Declaration</h1>
-      <div class="intro">
-        山形浩生氏（cruel.org）や橋本麦氏（baku89.com）の公開遺言・置文に倣い、デジタル資産および創作物の死後ライセンス方針をGPG署名付きで公開しています。
+      <div class="title-row">
+        <h1>Public Will &amp; Digital Declaration</h1>
+        <div class="author">
+          <a href="https://muraseryosuke.info">Ryosuke Murase</a> (@muraseryosuke)
+        </div>
       </div>
-      <div class="nav">
-        <a href="index.txt">📄 Raw Signed Text (index.txt)</a>
-        <a href="gpgkey.txt">🔑 GPG Public Key (gpgkey.txt)</a>
-        <a href="https://muraseryosuke.info">🌐 muraseryosuke.info</a>
+      <div class="fingerprint-banner">
+        <span>FPR: <span class="fingerprint-val">1E7B 5BA3 FF10 F030 DAE0 51C1 ACE9 1C7A 58FB B001</span></span>
+        <button class="action-btn" onclick="copyText('1E7B 5BA3 FF10 F030 DAE0 51C1 ACE9 1C7A 58FB B001', this)">Copy FPR</button>
       </div>
     </header>
 
-    <main>
-      <pre id="content">Loading signed declaration...</pre>
-    </main>
+    <!-- Tab Buttons -->
+    <nav class="tab-bar">
+      <button class="tab-btn active" onclick="switchTab('will', this)">📜 置文・遺言 (Signed Will)</button>
+      <button class="tab-btn" onclick="switchTab('key', this)">🔑 GPG公開鍵 (Public Key)</button>
+      <button class="tab-btn" onclick="switchTab('verify', this)">🔍 検証手順 (Verification)</button>
+      <a href="index.txt" class="tab-btn" style="text-decoration: none; margin-left: auto;">📄 Raw Text ↗</a>
+    </nav>
 
-    <div class="verify-box">
-      <h3>🔍 署名の検証方法 (Verification)</h3>
-      <p style="margin: 0 0 8px 0;">以下のコマンドで公開鍵をインポートし、文書の完全性を検証できます：</p>
-      <code>curl -s https://will.muraseryosuke.info/gpgkey.txt | gpg --import</code><br>
-      <code>curl -s https://will.muraseryosuke.info/index.txt | gpg --verify</code>
-    </div>
+    <!-- TAB 1: Signed Will -->
+    <section id="tab-will" class="tab-content active">
+      <div class="card">
+        <div class="card-header">
+          <span>Signed Declaration (index.txt)</span>
+          <button class="action-btn" onclick="copyElementText('will-box', this)">Copy Plain Text</button>
+        </div>
+        <pre id="will-box">Loading signed declaration...</pre>
+      </div>
+    </section>
+
+    <!-- TAB 2: GPG Public Key -->
+    <section id="tab-key" class="tab-content">
+      <div class="card">
+        <div class="card-header">
+          <span>OpenPGP ASCII Armor Key (gpgkey.txt)</span>
+          <button class="action-btn" onclick="copyElementText('key-box', this)">Copy Key Block</button>
+        </div>
+        <pre id="key-box">Loading GPG public key...</pre>
+      </div>
+    </section>
+
+    <!-- TAB 3: Verification -->
+    <section id="tab-verify" class="tab-content">
+      <div class="card">
+        <div class="card-header">
+          <span>Cryptographic Signature Verification</span>
+        </div>
+        <div class="verify-grid">
+          <div class="verify-step">
+            <h3>1. 公開鍵のインポート</h3>
+            <p style="margin: 0; color: var(--text-sub);">ローカルのGPGキーチェーンに公開鍵を取り込みます。</p>
+            <div class="cmd-block">
+              <code>curl -s https://will.muraseryosuke.info/gpgkey.txt | gpg --import</code>
+              <button class="action-btn" onclick="copyText('curl -s https://will.muraseryosuke.info/gpgkey.txt | gpg --import', this)">Copy</button>
+            </div>
+          </div>
+
+          <div class="verify-step">
+            <h3>2. 署名の検証</h3>
+            <p style="margin: 0; color: var(--text-sub);">置文テキストの電子署名と真正性を検証します。</p>
+            <div class="cmd-block">
+              <code>curl -s https://will.muraseryosuke.info/index.txt | gpg --verify</code>
+              <button class="action-btn" onclick="copyText('curl -s https://will.muraseryosuke.info/index.txt | gpg --verify', this)">Copy</button>
+            </div>
+          </div>
+
+          <div class="verify-step">
+            <h3>3. 国際キーサーバーからの直接検索</h3>
+            <div class="cmd-block">
+              <code>gpg --locate-keys mail@muraseryosuke.info</code>
+              <button class="action-btn" onclick="copyText('gpg --locate-keys mail@muraseryosuke.info', this)">Copy</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
 
     <footer>
-      &copy; 2026 Ryosuke Murase (@muraseryosuke). Verified with OpenPGP (Ed25519).
+      &copy; 2026 <a href="https://muraseryosuke.info">Ryosuke Murase</a> &middot; Inspired by <a href="https://cruel.org/will.html" target="_blank" rel="noopener">cruel.org</a> &amp; <a href="https://baku89.com/ja/will" target="_blank" rel="noopener">baku89.com</a>
     </footer>
   </div>
 
   <script>
+    // Tab Switcher
+    function switchTab(tabName, btn) {
+      document.querySelectorAll('.tab-content').forEach(el => el.classList.remove('active'));
+      document.querySelectorAll('.tab-btn').forEach(el => el.classList.remove('active'));
+      
+      const target = document.getElementById('tab-' + tabName);
+      if (target) target.classList.add('active');
+      if (btn) btn.classList.add('active');
+    }
+
+    // Copy Handlers
+    function copyText(text, btn) {
+      navigator.clipboard.writeText(text).then(() => {
+        const orig = btn.textContent;
+        btn.textContent = 'Copied!';
+        setTimeout(() => { btn.textContent = orig; }, 1500);
+      });
+    }
+
+    function copyElementText(id, btn) {
+      const el = document.getElementById(id);
+      if (el) copyText(el.textContent, btn);
+    }
+
+    // Dynamic Fetch
     fetch('index.txt')
       .then(res => res.text())
-      .then(text => {
-        document.getElementById('content').textContent = text;
-      })
-      .catch(() => {
-        document.getElementById('content').textContent = 'Failed to load signed declaration.';
-      });
+      .then(text => { document.getElementById('will-box').textContent = text; })
+      .catch(() => { document.getElementById('will-box').textContent = 'Failed to load index.txt'; });
+
+    fetch('gpgkey.txt')
+      .then(res => res.text())
+      .then(text => { document.getElementById('key-box').textContent = text; })
+      .catch(() => { document.getElementById('key-box').textContent = 'Failed to load gpgkey.txt'; });
   </script>
 </body>
 </html>
