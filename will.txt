@@ -23,3 +23,4 @@ GPG Fingerprint: 1E7B 5BA3 FF10 F030 DAE0 51C1 ACE9 1C7A 58FB B001
 
 5. 真正性の検証
 本文書は、著者のGPG公開鍵（https://will.muraseryosuke.info/gpgkey.txt）によって電子署名されています。
+
